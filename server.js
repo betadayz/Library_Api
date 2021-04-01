@@ -1,5 +1,7 @@
 const express = require("express")
 const dotenv = require("dotenv")
+const morgan = require("morgan")
+const mongoose = require('mongoose');
 
 const bootcamps = require('./routes/bootcamps')
 
@@ -7,6 +9,17 @@ const bootcamps = require('./routes/bootcamps')
 dotenv.config({ path: './config/config.env' });
 
 const app = express();
+
+mongoose.connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useCreateIndex: true
+}).then(() => console.log('DB Connected'));
+
+
+if(process.env.NODE_ENV === "development") {
+    app.use(morgan('dev'))
+}
+
 
 app.use("/api/v1/bootcamps", bootcamps);
 
