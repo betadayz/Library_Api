@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const BootcampSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -34,5 +36,49 @@ const BootcampSchema = new mongoose.Schema({
     address: {
         type: String,
         required: [true, 'Please add an address']
+    },
+    careers: {
+        type: [String],
+        required: true,
+        enum: [
+            "Web Development",
+            "Mobile Development",
+            "UI/UX",
+            "Data Science",
+            "Business",
+            "Other"
+        ]
+    },
+    averageRating: {
+        type: Number,
+        min: [1, "Rating must be at least 1"],
+        mix: [10, "Rating must be at least 10"]
+    },
+    averageCost: Number,
+    photo: {
+        type: String,
+        default: "no-photo.jpg"
+    },
+    housing: {
+        type: Boolean,
+        default: false
+    },
+    jobAsstance: {
+        type: Boolean,
+        default: false
+    },
+    jobGuarantee: {
+        type: Boolean,
+        default: false
+    },
+    acceptGi: {
+        type: Boolean,
+        default: false
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 });
+
+module.exports = mongoose.model('Bootcamp', BootcampSchema);
