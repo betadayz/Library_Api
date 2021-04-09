@@ -5,20 +5,27 @@ const colors = require("colors")
 const errorHandler = require('./middleware/error.js')
 const connectDB = require('./config/db');
 
+// Load env vars
 dotenv.config({ path: './config/config.env' });
 
 connectDB();
 
-const bootcamps = require('./routes/bootcamps')
+const bootcamps = require('./routes/bootcamps');
+const courses = require('./routes/courses')
 
+// Body parser
 const app = express();
 
+// Dev logging middleware
 if(process.env.NODE_ENV === "development") {
     app.use(morgan('dev'))
 }
 
+// Mount routers
 app.use(express.json());
 app.use("/api/v1/bootcamps", bootcamps);
+app.use("/api/v1/courses", courses);
+
 app.use(errorHandler);
 
 
