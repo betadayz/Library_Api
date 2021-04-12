@@ -32,6 +32,31 @@ const CourseSchema = new mongoose.Schema({
         ref: 'Bootcamp',
         required: true
     }
-})
+});
+
+CourseSchema.statics.getAverageCost = async function(bootcampId) {
+    console.log("Calculating avg cost...".blue)
+
+    const obj = await this.aggregate([
+        {
+            $match: { bootcamp: bootcampId }
+        },
+        {
+            $group: {
+                _id: '$bootcamp',
+                averageCost: { $avg: "$tuition" }
+            }
+        }
+    ]);
+    console.log(obj);
+}
+
+CourseSchema.post('save', function() {
+
+});
+
+CourseSchema.pre('remove', function() {
+
+});
 
 module.exports = mongoose.model('Course', CourseSchema);
